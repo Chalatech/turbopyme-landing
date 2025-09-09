@@ -1,6 +1,5 @@
 import styled from '@emotion/styled'
 import { keyframes } from '@emotion/react'
-import { useEffect, useState } from 'react'
 import SimpleAnimatedLogo from './SimpleAnimatedLogo'
 
 const fadeIn = keyframes`
@@ -14,14 +13,6 @@ const fadeIn = keyframes`
   }
 `
 
-const float = keyframes`
-  0%, 100% {
-    transform: translateY(0) scale(1);
-  }
-  50% {
-    transform: translateY(-20px) scale(1.05);
-  }
-`
 
 const HeroContainer = styled.section`
   min-height: 100vh;
@@ -174,11 +165,6 @@ const ScrollIndicator = styled.div`
 `
 
 const Hero = () => {
-  const [isVisible, setIsVisible] = useState(false)
-
-  useEffect(() => {
-    setIsVisible(true)
-  }, [])
 
   const scrollToPlans = () => {
     const plansSection = document.getElementById('pricing-plans')

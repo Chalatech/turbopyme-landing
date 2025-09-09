@@ -20,7 +20,7 @@ const containerVariants = {
     scale: 1,
     transition: {
       duration: 0.8,
-      ease: "easeOut",
+      ease: "easeOut" as const,
       staggerChildren: 0.3
     }
   },
@@ -28,7 +28,7 @@ const containerVariants = {
     scale: 1.05,
     transition: {
       duration: 0.3,
-      ease: "easeInOut"
+      ease: "easeInOut" as const
     }
   }
 }
@@ -44,7 +44,7 @@ const pathVariants = {
     opacity: 1,
     fill: "#0e7bd7",
     transition: {
-      pathLength: { duration: 2, ease: "easeInOut" },
+      pathLength: { duration: 2, ease: "easeInOut" as const },
       opacity: { duration: 0.3, delay: 0.5 },
       fill: { duration: 0.5, delay: 1.5 }
     }
@@ -67,7 +67,7 @@ const tealPathVariants = {
     opacity: 1,
     fill: "#20b2aa",
     transition: {
-      pathLength: { duration: 1.5, ease: "easeInOut", delay: 0.5 },
+      pathLength: { duration: 1.5, ease: "easeInOut" as const, delay: 0.5 },
       opacity: { duration: 0.3, delay: 1 },
       fill: { duration: 0.5, delay: 2 }
     }
@@ -92,7 +92,7 @@ const textVariants = {
     transition: {
       duration: 0.8,
       delay: 2.5,
-      ease: "easeOut"
+      ease: "easeOut" as const
     }
   },
   static: {
@@ -112,7 +112,7 @@ const glowVariants = {
     transition: {
       duration: 3,
       repeat: Infinity,
-      ease: "easeInOut"
+      ease: "easeInOut" as const
     }
   }
 }

@@ -1,6 +1,5 @@
 import styled from '@emotion/styled'
 import { motion } from 'framer-motion'
-import { useState } from 'react'
 import InteractiveLogoDemo from './InteractiveLogoDemo'
 
 const ShowcaseSection = styled.section`
@@ -148,8 +147,6 @@ const technologies = [
 ]
 
 const LogoShowcase = () => {
-  const [isVisible, setIsVisible] = useState(false)
-
   return (
     <ShowcaseSection>
       <Container>
