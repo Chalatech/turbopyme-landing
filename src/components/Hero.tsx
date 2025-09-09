@@ -135,6 +135,60 @@ const CTAButton = styled.button`
   }
 `
 
+const LoginButton = styled.a`
+  background: transparent;
+  color: #0e7bd7;
+  border: 2px solid #0e7bd7;
+  padding: 1.2rem 3rem;
+  font-size: 1.2rem;
+  font-weight: 600;
+  border-radius: 50px;
+  cursor: pointer;
+  animation: ${fadeIn} 1s ease-out 1s both;
+  transition: all 0.3s ease;
+  z-index: 2;
+  text-decoration: none;
+  display: inline-block;
+  margin-left: 1rem;
+  
+  &:hover {
+    background: linear-gradient(135deg, #0e7bd7 0%, #20b2aa 100%);
+    color: white;
+    border-color: transparent;
+    transform: translateY(-3px);
+    box-shadow: 0 12px 35px rgba(14, 123, 215, 0.4);
+  }
+  
+  &:active {
+    transform: translateY(-1px);
+  }
+  
+  @media (max-width: 768px) {
+    padding: 1rem 2.5rem;
+    font-size: 1.1rem;
+    margin-left: 0;
+    margin-top: 1rem;
+  }
+  
+  @media (max-width: 480px) {
+    padding: 0.9rem 2rem;
+    font-size: 1rem;
+  }
+`
+
+const ButtonContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  z-index: 2;
+  
+  @media (max-width: 768px) {
+    flex-direction: column;
+    gap: 0;
+  }
+`
+
 const ScrollIndicator = styled.div`
   position: absolute;
   bottom: 30px;
@@ -171,6 +225,8 @@ const Hero = () => {
     plansSection?.scrollIntoView({ behavior: 'smooth' })
   }
 
+  const loginUrl = import.meta.env.VITE_LOGIN_URL || 'https://test.turbopyme.com'
+
   return (
     <HeroContainer>
       <LogoContainer>
@@ -181,9 +237,14 @@ const Hero = () => {
         La plataforma más completa para automatizar tu facturación con Hacienda.
         Simple, rápida y confiable.
       </Subtitle>
-      <CTAButton onClick={scrollToPlans}>
-        Ver Planes y Precios
-      </CTAButton>
+      <ButtonContainer>
+        <CTAButton onClick={scrollToPlans}>
+          Ver Planes y Precios
+        </CTAButton>
+        <LoginButton href={loginUrl} target="_blank" rel="noopener noreferrer">
+          Iniciar Sesión
+        </LoginButton>
+      </ButtonContainer>
       <ScrollIndicator />
     </HeroContainer>
   )
