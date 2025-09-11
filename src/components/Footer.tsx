@@ -147,11 +147,9 @@ const Footer = () => {
         <FooterSection>
           <FooterTitle>Productos</FooterTitle>
           <FooterList>
-            <FooterLink><a href="#pricing-plans">Plan Personal</a></FooterLink>
-            <FooterLink><a href="#pricing-plans">Plan Microempresa</a></FooterLink>
-            <FooterLink><a href="#pricing-plans">Plan Básico</a></FooterLink>
-            <FooterLink><a href="#pricing-plans">Plan Pro</a></FooterLink>
-            <FooterLink><a href="#pricing-plans">Plan Enterprise</a></FooterLink>
+            <FooterLink><a href="#features">Características</a></FooterLink>
+            <FooterLink><a href="#pricing-plans">Ver Planes</a></FooterLink>
+            <FooterLink><a href="#contact">Contacto</a></FooterLink>
           </FooterList>
         </FooterSection>
         

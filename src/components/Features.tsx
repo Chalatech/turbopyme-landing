@@ -257,7 +257,7 @@ const Features = () => {
   }, [])
 
   return (
-    <FeaturesSection ref={sectionRef}>
+    <FeaturesSection id="features" ref={sectionRef}>
       <Container>
         <SectionTitle>Funcionalidades Principales</SectionTitle>
         
