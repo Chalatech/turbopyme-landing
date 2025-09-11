@@ -1,6 +1,5 @@
 import styled from '@emotion/styled'
-import { HiMail, HiPhone, HiLocationMarker } from 'react-icons/hi'
-import { FaFacebook, FaTwitter, FaLinkedin } from 'react-icons/fa'
+import { HiMail, HiLocationMarker } from 'react-icons/hi'
 
 const FooterContainer = styled.footer`
   background: #1a202c;
@@ -77,35 +76,7 @@ const ContactInfo = styled.div`
   }
 `
 
-const SocialLinks = styled.div`
-  display: flex;
-  gap: 1rem;
-  margin-top: 1.5rem;
-`
 
-const SocialLink = styled.a`
-  width: 40px;
-  height: 40px;
-  background: rgba(14, 123, 215, 0.2);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #0e7bd7;
-  text-decoration: none;
-  transition: all 0.3s ease;
-  
-  svg {
-    width: 18px;
-    height: 18px;
-  }
-  
-  &:hover {
-    background: #0e7bd7;
-    color: white;
-    transform: translateY(-3px);
-  }
-`
 
 const FooterBottom = styled.div`
   text-align: center;

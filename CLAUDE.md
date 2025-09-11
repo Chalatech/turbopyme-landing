@@ -1,0 +1,1 @@
+- always lint for ts errors or warnings before push

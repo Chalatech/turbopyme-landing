@@ -2,7 +2,6 @@ import styled from '@emotion/styled'
 import { keyframes } from '@emotion/react'
 import { useEffect, useRef, useState } from 'react'
 import { 
-  HiDocumentText, 
   HiShieldCheck, 
   HiExclamation, 
   HiChartBar, 
@@ -66,15 +65,6 @@ const SectionTitle = styled.h2`
   }
 `
 
-const SectionSubtitle = styled.p`
-  font-size: 1.2rem;
-  color: rgba(255, 255, 255, 0.9);
-  text-align: center;
-  margin-bottom: 4rem;
-  max-width: 700px;
-  margin-left: auto;
-  margin-right: auto;
-`
 
 const FeaturesGrid = styled.div`
   display: grid;
@@ -129,45 +119,9 @@ const FeatureDescription = styled.p`
   line-height: 1.6;
 `
 
-const MainFeaturesList = styled.div`
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 20px;
-  padding: 3rem;
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-`
 
-const MainFeaturesTitle = styled.h3`
-  font-size: 2rem;
-  color: white;
-  text-align: center;
-  margin-bottom: 2rem;
-`
 
-const FeaturesList = styled.ul`
-  list-style: none;
-  padding: 0;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 1.5rem;
-`
 
-const FeatureItem = styled.li<{ visible?: boolean; index?: number }>`
-  color: white;
-  display: flex;
-  align-items: center;
-  font-size: 1.1rem;
-  animation: ${props => props.visible ? fadeIn : 'none'} 0.4s ease-out ${props => (props.index || 0) * 0.1}s both;
-  opacity: ${props => props.visible ? 1 : 0};
-  
-  svg {
-    margin-right: 1rem;
-    width: 20px;
-    height: 20px;
-    color: #20b2aa;
-    flex-shrink: 0;
-  }
-`
 
 const features = [
   {
@@ -202,21 +156,9 @@ const features = [
   }
 ]
 
-const mainFeatures = [
-  'Implementación y proceso de autorización con Hacienda',
-  'Emisión de Factura Electrónica y Crédito Fiscal',
-  'Emisión de Nota de Crédito y Sujeto Excluido',
-  'Contingencia automatizada',
-  'PDF Personalizado con logo y eslogan',
-  'Gestión de inventario avanzada',
-  'Gestión de múltiples sucursales',
-  'Sitio web accesible desde cualquier dispositivo',
-  'Reportes personalizados y análisis'
-]
 
 const Features = () => {
   const [visibleCards, setVisibleCards] = useState<boolean[]>(new Array(features.length).fill(false))
-  const [visibleItems, setVisibleItems] = useState<boolean[]>(new Array(mainFeatures.length).fill(false))
   const sectionRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -232,16 +174,6 @@ const Features = () => {
                   return newState
                 })
               }, index * 100)
-            })
-            
-            mainFeatures.forEach((_, index) => {
-              setTimeout(() => {
-                setVisibleItems(prev => {
-                  const newState = [...prev]
-                  newState[index] = true
-                  return newState
-                })
-              }, 600 + index * 50)
             })
           }
         })

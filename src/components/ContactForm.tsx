@@ -189,30 +189,6 @@ const TextArea = styled.textarea`
   }
 `
 
-const Select = styled.select`
-  padding: 1rem 1.2rem;
-  border: 2px solid #e2e8f0;
-  border-radius: 12px;
-  font-size: 1rem;
-  transition: all 0.3s ease;
-  background: rgba(255, 255, 255, 0.9);
-  cursor: pointer;
-  color: #2d3748;
-  font-weight: 500;
-  
-  &:focus {
-    outline: none;
-    border-color: #0e7bd7;
-    box-shadow: 0 0 0 3px rgba(14, 123, 215, 0.1);
-    background: rgba(255, 255, 255, 1);
-    color: #1a202c;
-  }
-  
-  option {
-    color: #2d3748;
-    background: white;
-  }
-`
 
 const SubmitButton = styled.button`
   background: #0e7bd7;
