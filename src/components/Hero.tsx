@@ -1,6 +1,7 @@
 import styled from '@emotion/styled'
 import { keyframes } from '@emotion/react'
 import SimpleAnimatedLogo from './SimpleAnimatedLogo'
+import { trackCTA } from '../utils/analytics'
 
 const fadeIn = keyframes`
   from {
@@ -49,33 +50,55 @@ const HeroContainer = styled.section`
 
 const LogoContainer = styled.div`
   z-index: 2;
-  margin-bottom: 3rem;
+  margin-bottom: 1.5rem;
   
   @media (max-width: 768px) {
-    margin-bottom: 2rem;
+    margin-bottom: 1rem;
   }
   
   @media (max-width: 480px) {
-    margin-bottom: 1.5rem;
+    margin-bottom: 0.75rem;
   }
 `
 
-const Title = styled.h1`
-  font-size: 3.5rem;
-  color: #082a54;
+const BrandName = styled.h1`
+  font-size: 4rem;
+  color: #0e7bd7;
   text-align: center;
-  margin-bottom: 1rem;
-  animation: ${fadeIn} 1s ease-out 0.3s both;
-  text-shadow: 1px 2px 4px rgba(0, 0, 0, 0.1);
-  z-index: 2;
+  margin-bottom: 2rem;
+  animation: ${fadeIn} 1s ease-out 0.2s both;
   font-weight: 700;
+  text-shadow: 2px 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 2;
+  letter-spacing: -0.02em;
   
   @media (max-width: 768px) {
-    font-size: 2.5rem;
+    font-size: 3rem;
+    margin-bottom: 1.5rem;
   }
   
   @media (max-width: 480px) {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+  }
+`
+
+const Title = styled.h2`
+  font-size: 2.5rem;
+  color: #082a54;
+  text-align: center;
+  margin-bottom: 1rem;
+  animation: ${fadeIn} 1s ease-out 0.4s both;
+  text-shadow: 1px 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 2;
+  font-weight: 600;
+  
+  @media (max-width: 768px) {
     font-size: 2rem;
+  }
+  
+  @media (max-width: 480px) {
+    font-size: 1.8rem;
   }
 `
 
@@ -101,7 +124,7 @@ const Subtitle = styled.p`
 `
 
 const CTAButton = styled.button`
-  background: linear-gradient(135deg, #0e7bd7 0%, #20b2aa 100%);
+  background: #0e7bd7;
   color: white;
   border: none;
   padding: 1.2rem 3rem;
@@ -109,7 +132,7 @@ const CTAButton = styled.button`
   font-weight: 600;
   border-radius: 50px;
   cursor: pointer;
-  animation: ${fadeIn} 1s ease-out 0.9s both;
+  animation: ${fadeIn} 1s ease-out 0.8s both;
   transition: all 0.3s ease;
   box-shadow: 0 8px 25px rgba(14, 123, 215, 0.3);
   z-index: 2;
@@ -117,7 +140,7 @@ const CTAButton = styled.button`
   &:hover {
     transform: translateY(-3px);
     box-shadow: 0 12px 35px rgba(14, 123, 215, 0.4);
-    background: linear-gradient(135deg, #1e8be7 0%, #30c2ba 100%);
+    background: #1e8be7;
   }
   
   &:active {
@@ -144,7 +167,7 @@ const LoginButton = styled.a`
   font-weight: 600;
   border-radius: 50px;
   cursor: pointer;
-  animation: ${fadeIn} 1s ease-out 1s both;
+  animation: ${fadeIn} 1s ease-out 0.9s both;
   transition: all 0.3s ease;
   z-index: 2;
   text-decoration: none;
@@ -152,7 +175,7 @@ const LoginButton = styled.a`
   margin-left: 1rem;
   
   &:hover {
-    background: linear-gradient(135deg, #0e7bd7 0%, #20b2aa 100%);
+    background: #0e7bd7;
     color: white;
     border-color: transparent;
     transform: translateY(-3px);
@@ -194,35 +217,41 @@ const ScrollIndicator = styled.div`
   bottom: 30px;
   left: 50%;
   transform: translateX(-50%);
-  animation: ${fadeIn} 1s ease-out 1.2s both;
+  animation: ${fadeIn} 1s ease-out 1s both;
   
   &::after {
     content: '';
     display: block;
-    width: 30px;
-    height: 30px;
+    width: 24px;
+    height: 24px;
     border: 2px solid #0e7bd7;
     border-top: none;
     border-left: none;
     transform: rotate(45deg);
+    opacity: 0.7;
     animation: ${keyframes`
       0%, 100% {
-        transform: translateX(-50%) rotate(45deg) translateY(0);
-        opacity: 1;
+        transform: rotate(45deg) translateY(0px);
+        opacity: 0.7;
       }
       50% {
-        transform: translateX(-50%) rotate(45deg) translateY(10px);
-        opacity: 0.5;
+        transform: rotate(45deg) translateY(6px);
+        opacity: 0.4;
       }
-    `} 2s ease-in-out infinite;
+    `} 3s ease-in-out infinite;
   }
 `
 
 const Hero = () => {
 
   const scrollToPlans = () => {
+    trackCTA('hero_pricing_button', { section: 'hero', action: 'scroll_to_plans' })
     const plansSection = document.getElementById('pricing-plans')
     plansSection?.scrollIntoView({ behavior: 'smooth' })
+  }
+
+  const handleLoginClick = () => {
+    trackCTA('hero_login_button', { section: 'hero', action: 'external_login' })
   }
 
   const loginUrl = import.meta.env.VITE_LOGIN_URL || 'https://test.turbopyme.com'
@@ -230,8 +259,9 @@ const Hero = () => {
   return (
     <HeroContainer>
       <LogoContainer>
-        <SimpleAnimatedLogo width={320} height={320} />
+        <SimpleAnimatedLogo width={280} height={280} />
       </LogoContainer>
+      <BrandName>TurboPyme</BrandName>
       <Title>Facturación Electrónica Inteligente</Title>
       <Subtitle>
         La plataforma más completa para automatizar tu facturación con Hacienda.
@@ -241,7 +271,7 @@ const Hero = () => {
         <CTAButton onClick={scrollToPlans}>
           Ver Planes y Precios
         </CTAButton>
-        <LoginButton href={loginUrl} target="_blank" rel="noopener noreferrer">
+        <LoginButton href={loginUrl} target="_blank" rel="noopener noreferrer" onClick={handleLoginClick}>
           Iniciar Sesión
         </LoginButton>
       </ButtonContainer>

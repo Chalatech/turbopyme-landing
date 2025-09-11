@@ -24,7 +24,7 @@ const fadeIn = keyframes`
 
 const FeaturesSection = styled.section`
   padding: 5rem 2rem;
-  background: linear-gradient(135deg, #0e7bd7 0%, #20b2aa 100%);
+  background: linear-gradient(135deg, rgba(14, 123, 215, 0.3) 0%, rgba(32, 178, 170, 0.3) 100%);
   position: relative;
   overflow: hidden;
   
@@ -101,20 +101,20 @@ const FeatureCard = styled.div<{ visible?: boolean; delay?: number }>`
 `
 
 const IconWrapper = styled.div`
-  width: 60px;
-  height: 60px;
-  background: linear-gradient(135deg, #0e7bd7 0%, #20b2aa 100%);
-  border-radius: 15px;
   display: flex;
   align-items: center;
   justify-content: center;
   margin-bottom: 1.5rem;
-  box-shadow: 0 10px 20px rgba(14, 123, 215, 0.3);
   
   svg {
-    width: 28px;
-    height: 28px;
-    color: white;
+    width: 48px;
+    height: 48px;
+    color: #0e7bd7;
+    transition: color 0.3s ease;
+    
+    &:hover {
+      color: #20b2aa;
+    }
   }
 `
 
@@ -171,9 +171,9 @@ const FeatureItem = styled.li<{ visible?: boolean; index?: number }>`
 
 const features = [
   {
-    icon: HiDocumentText,
-    title: 'Facturación Electrónica',
-    description: 'Emite facturas electrónicas, créditos fiscales, notas de crédito y documentos de sujeto excluido de forma automática.'
+    icon: HiSparkles,
+    title: 'Plataforma Moderna',
+    description: 'Interfaz intuitiva y elegante diseñada para maximizar tu productividad. Experiencia de usuario optimizada para cualquier dispositivo.'
   },
   {
     icon: HiShieldCheck,
@@ -260,9 +260,6 @@ const Features = () => {
     <FeaturesSection ref={sectionRef}>
       <Container>
         <SectionTitle>Funcionalidades Principales</SectionTitle>
-        <SectionSubtitle>
-          Todo lo que necesitas para digitalizar y automatizar tu facturación electrónica
-        </SectionSubtitle>
         
         <FeaturesGrid>
           {features.map((feature, index) => {
@@ -283,21 +280,6 @@ const Features = () => {
           })}
         </FeaturesGrid>
         
-        <MainFeaturesList>
-          <MainFeaturesTitle>Características Incluidas</MainFeaturesTitle>
-          <FeaturesList>
-            {mainFeatures.map((feature, index) => (
-              <FeatureItem 
-                key={index}
-                visible={visibleItems[index]}
-                index={index}
-              >
-                <HiSparkles />
-                {feature}
-              </FeatureItem>
-            ))}
-          </FeaturesList>
-        </MainFeaturesList>
       </Container>
     </FeaturesSection>
   )

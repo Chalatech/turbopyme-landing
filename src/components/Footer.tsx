@@ -16,7 +16,7 @@ const FooterContainer = styled.footer`
     left: 0;
     right: 0;
     height: 3px;
-    background: linear-gradient(90deg, #0e7bd7 0%, #20b2aa 100%);
+    background: #0e7bd7;
   }
 `
 
@@ -131,7 +131,7 @@ const Footer = () => {
             La solución más completa para la facturación electrónica en El Salvador.
             Automatiza tu proceso con Hacienda de forma simple y confiable.
           </FooterText>
-          <SocialLinks>
+          {/* <SocialLinks>
             <SocialLink href="#" aria-label="Facebook">
               <FaFacebook />
             </SocialLink>
@@ -141,7 +141,7 @@ const Footer = () => {
             <SocialLink href="#" aria-label="LinkedIn">
               <FaLinkedin />
             </SocialLink>
-          </SocialLinks>
+          </SocialLinks> */}
         </FooterSection>
         
         <FooterSection>
@@ -155,36 +155,26 @@ const Footer = () => {
           </FooterList>
         </FooterSection>
         
-        <FooterSection>
-          <FooterTitle>Recursos</FooterTitle>
-          <FooterList>
-            <FooterLink><a href="#">Documentación</a></FooterLink>
-            <FooterLink><a href="#">Guía de Inicio</a></FooterLink>
-            <FooterLink><a href="#">API</a></FooterLink>
-            <FooterLink><a href="#">Soporte</a></FooterLink>
-            <FooterLink><a href="#">Blog</a></FooterLink>
-          </FooterList>
-        </FooterSection>
         
         <FooterSection>
           <FooterTitle>Contacto</FooterTitle>
           <ContactInfo>
             <HiMail />
-            <span>info@turbopyme.com</span>
+            <a href="mailto:info@turbopyme.com" style={{ color: 'inherit', textDecoration: 'none' }}>info@turbopyme.com</a>
           </ContactInfo>
-          <ContactInfo>
+          {/* <ContactInfo>
             <HiPhone />
             <span>+503 2222-3333</span>
-          </ContactInfo>
+          </ContactInfo> */}
           <ContactInfo>
             <HiLocationMarker />
-            <span>San Salvador, El Salvador</span>
+            <span>Chalatenango, El Salvador</span>
           </ContactInfo>
         </FooterSection>
       </FooterContent>
       
       <FooterBottom>
-        <p>&copy; 2024 TurboPyme. Todos los derechos reservados.</p>
+        <p>&copy; {new Date().getFullYear()} TurboPyme. Todos los derechos reservados.</p>
       </FooterBottom>
     </FooterContainer>
   )

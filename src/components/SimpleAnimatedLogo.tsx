@@ -52,7 +52,7 @@ const SimpleAnimatedLogo = ({
       <AnimatedSVG
         width={width}
         height={height}
-        viewBox="0 0 716.4 709.41"
+viewBox="0 0 716.4 550"
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ 
           opacity: 1, 
@@ -149,28 +149,6 @@ const SimpleAnimatedLogo = ({
           transition={{ delay: 0.2, duration: 0.3 }}
         />
 
-        {/* TurboPyme text */}
-        <motion.text
-          transform="translate(0 658.95)"
-          fill="#082a54"
-          fontFamily="Kanit-Medium, Kanit"
-          fontSize="139"
-          fontWeight="500"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ 
-            opacity: 1, 
-            y: 0,
-            fill: isHovered ? "#0a3464" : "#082a54"
-          }}
-          transition={{ delay: 0.6, duration: 0.8 }}
-        >
-          <tspan x="0" y="0" letterSpacing="-.09em">T</tspan>
-          <tspan x="65.19" y="0">ur</tspan>
-          <tspan x="199.32" y="0" letterSpacing="-.02em">b</tspan>
-          <tspan x="277.86" y="0">o</tspan>
-          <tspan x="359.73" y="0" letterSpacing="-.04em">P</tspan>
-          <tspan x="436.6" y="0">yme</tspan>
-        </motion.text>
 
         {/* Subtle teal glow effect around the flame on hover */}
         {isHovered && (

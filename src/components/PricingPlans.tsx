@@ -3,6 +3,22 @@ import { keyframes } from '@emotion/react'
 import { useEffect, useRef, useState } from 'react'
 import { HiCheck } from 'react-icons/hi'
 
+interface PlanFeature {
+  text: string
+  isSubfeature?: boolean
+}
+
+interface PlanData {
+  name: string
+  monthlyPrice: number | string
+  annualPrice: number | string
+  implementationCost: number | string | null
+  features: (string | PlanFeature)[]
+  implementationDetails: string[]
+  featured?: boolean
+  isEnterprise?: boolean
+}
+
 const fadeInUp = keyframes`
   from {
     opacity: 0;
@@ -16,11 +32,23 @@ const fadeInUp = keyframes`
 
 const PricingSection = styled.section`
   padding: 4rem 2rem;
-  background: white;
+  background: linear-gradient(135deg, #f0f8ff 0%, #e8f6f5 100%);
   position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
+  overflow: hidden;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at 30% 80%, rgba(14, 123, 215, 0.05), transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(32, 178, 170, 0.05), transparent 50%);
+  }
   
   @media (max-width: 768px) {
     padding: 3rem 1rem;
@@ -69,54 +97,29 @@ const PlanCard = styled.div<{ featured?: boolean; visible?: boolean }>`
   background: white;
   border-radius: 16px;
   padding: 1.8rem;
-  box-shadow: ${props => props.featured 
-    ? '0 15px 50px rgba(14, 123, 215, 0.3)' 
-    : '0 8px 25px rgba(0, 0, 0, 0.1)'};
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
   position: relative;
-  border: ${props => props.featured ? '2px solid #0e7bd7' : '1px solid #e2e8f0'};
+  border: 1px solid #e2e8f0;
   animation: ${props => props.visible ? fadeInUp : 'none'} 0.6s ease-out forwards;
   opacity: ${props => props.visible ? 1 : 0};
   min-height: 500px;
   display: flex;
   flex-direction: column;
   
-  ${props => props.featured && `
-    transform: scale(1.03);
-    
-    &::before {
-      content: 'MÁS POPULAR';
-      position: absolute;
-      top: -12px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: linear-gradient(135deg, #0e7bd7 0%, #20b2aa 100%);
-      color: white;
-      padding: 0.4rem 1.2rem;
-      border-radius: 15px;
-      font-size: 0.75rem;
-      font-weight: 600;
-    }
-  `}
-  
   &:hover {
-    transform: ${props => props.featured ? 'scale(1.05)' : 'translateY(-8px)'};
-    box-shadow: ${props => props.featured 
-      ? '0 20px 60px rgba(14, 123, 215, 0.4)' 
-      : '0 12px 35px rgba(0, 0, 0, 0.15)'};
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 20px 60px rgba(14, 123, 215, 0.3);
+    border-color: #0e7bd7;
   }
   
   @media (max-width: 768px) {
     padding: 1.5rem;
     min-height: 450px;
     
-    ${props => props.featured && `
-      transform: scale(1);
-      
-      &:hover {
-        transform: translateY(-5px);
-      }
-    `}
+    &:hover {
+      transform: translateY(-5px) scale(1.01);
+    }
   }
 `
 
@@ -169,25 +172,37 @@ const PlanFeatures = styled.ul`
   flex-grow: 1;
 `
 
-const Feature = styled.li`
+const Feature = styled.li<{ isSubfeature?: boolean }>`
   padding: 0.5rem 0;
   color: #4a5568;
   display: flex;
   align-items: flex-start;
   font-size: 0.9rem;
   line-height: 1.4;
+  margin-left: ${props => props.isSubfeature ? '1.5rem' : '0'};
   
   svg {
-    color: #48bb78;
+    color: ${props => props.isSubfeature ? '#718096' : '#48bb78'};
     margin-right: 0.6rem;
-    width: 16px;
-    height: 16px;
+    width: ${props => props.isSubfeature ? '12px' : '16px'};
+    height: ${props => props.isSubfeature ? '12px' : '16px'};
     margin-top: 0.1rem;
     flex-shrink: 0;
   }
   
+  ${props => props.isSubfeature && `
+    font-size: 0.85rem;
+    color: #718096;
+    padding: 0.3rem 0;
+  `}
+  
   @media (max-width: 768px) {
     font-size: 0.85rem;
+    margin-left: ${props => props.isSubfeature ? '1rem' : '0'};
+    
+    ${props => props.isSubfeature && `
+      font-size: 0.8rem;
+    `}
   }
 `
 
@@ -216,13 +231,52 @@ const ImplementationPrice = styled.div`
   }
 `
 
+const ImplementationDetails = styled.div`
+  background: #f8fbff;
+  border-radius: 8px;
+  padding: 0.8rem;
+  margin-top: 0.8rem;
+  margin-bottom: 1rem;
+  border-left: 3px solid #20b2aa;
+`
+
+const ImplementationDetailsTitle = styled.div`
+  font-size: 0.8rem;
+  color: #20b2aa;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+`
+
+const ImplementationDetailsList = styled.ul`
+  list-style: none;
+  padding: 0;
+  margin: 0;
+`
+
+const ImplementationDetailItem = styled.li`
+  font-size: 0.75rem;
+  color: #4a5568;
+  padding: 0.2rem 0;
+  display: flex;
+  align-items: flex-start;
+  
+  svg {
+    color: #20b2aa;
+    margin-right: 0.4rem;
+    width: 12px;
+    height: 12px;
+    margin-top: 0.1rem;
+    flex-shrink: 0;
+  }
+`
+
 const SelectButton = styled.button`
   width: 100%;
-  padding: 0.8rem;
-  background: linear-gradient(135deg, #0e7bd7 0%, #20b2aa 100%);
+  padding: 0.8rem 2rem;
+  background: #0e7bd7;
   color: white;
   border: none;
-  border-radius: 8px;
+  border-radius: 50px;
   font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
@@ -232,6 +286,7 @@ const SelectButton = styled.button`
   &:hover {
     transform: translateY(-2px);
     box-shadow: 0 8px 15px rgba(14, 123, 215, 0.3);
+    background: #1e8be7;
   }
   
   @media (max-width: 768px) {
@@ -240,7 +295,7 @@ const SelectButton = styled.button`
   }
 `
 
-const plans = [
+const plans: PlanData[] = [
   {
     name: 'Personal',
     monthlyPrice: 9.99,
@@ -248,11 +303,25 @@ const plans = [
     implementationCost: 100,
     features: [
       'Emisión de 25 DTE',
+      { text: 'Factura Comercial', isSubfeature: true },
+      { text: 'Crédito Fiscal', isSubfeature: true },
+      { text: 'Nota de Crédito', isSubfeature: true },
+      { text: 'Sujeto Excluido', isSubfeature: true },
       'Casa Matriz',
-      'Diseño de Factura Personalizada',
+      'Clientes & Proveedores',
+      'Catálogo de Productos',
+      'Factura con logo de empresa y eslogan',
       'Envío de DTE vía correo electrónico',
-      'Importación de json',
+      'Registro de compras',
+      { text: 'Importación JSON inteligente', isSubfeature: true },
       '1 Usuario'
+    ],
+    implementationDetails: [
+      'Pruebas con Hacienda',
+      'Certificado DTE',
+      'Configuración inicial',
+      'Capacitación básica',
+      'Soporte técnico'
     ]
   },
   {
@@ -262,12 +331,25 @@ const plans = [
     implementationCost: 200,
     features: [
       'Emisión de 50 DTE',
+      { text: 'Factura Comercial', isSubfeature: true },
+      { text: 'Crédito Fiscal', isSubfeature: true },
+      { text: 'Nota de Crédito', isSubfeature: true },
+      { text: 'Sujeto Excluido', isSubfeature: true },
       'Casa Matriz',
-      'Diseño de Factura Personalizada',
-      'Envío de DTE vía correo electrónico',
-      'Importación de json',
+      'Clientes & Proveedores',
       'Catálogo de Productos',
+      'Factura con logo de empresa y eslogan',
+      'Envío de DTE vía correo electrónico',
+      'Registro de compras',
+      { text: 'Importación JSON inteligente', isSubfeature: true },
       '1 Usuario'
+    ],
+    implementationDetails: [
+      'Pruebas con Hacienda',
+      'Certificado DTE',
+      'Configuración inicial',
+      'Capacitación completa',
+      'Soporte técnico extendido'
     ]
   },
   {
@@ -278,12 +360,26 @@ const plans = [
     featured: true,
     features: [
       'Emisión de 400 DTE',
+      { text: 'Factura Comercial', isSubfeature: true },
+      { text: 'Crédito Fiscal', isSubfeature: true },
+      { text: 'Nota de Crédito', isSubfeature: true },
+      { text: 'Sujeto Excluido', isSubfeature: true },
       'Casa Matriz',
-      'Diseño de Factura Personalizada',
-      'Envío de DTE vía correo electrónico',
-      'Importación de json',
+      'Clientes & Proveedores',
       'Catálogo de Productos',
+      'Factura con logo de empresa y eslogan',
+      'Envío de DTE vía correo electrónico',
+      'Registro de compras',
+      { text: 'Importación JSON inteligente', isSubfeature: true },
       '3 Usuarios'
+    ],
+    implementationDetails: [
+      'Ingreso catálogo productos',
+      'Pruebas con Hacienda',
+      'Certificado DTE',
+      'Configuración avanzada',
+      'Capacitación multi-usuario',
+      'Soporte prioritario'
     ]
   },
   {
@@ -293,33 +389,64 @@ const plans = [
     implementationCost: 400,
     features: [
       'Emisión de 800 DTE',
+      { text: 'Factura Comercial', isSubfeature: true },
+      { text: 'Crédito Fiscal', isSubfeature: true },
+      { text: 'Nota de Crédito', isSubfeature: true },
+      { text: 'Sujeto Excluido', isSubfeature: true },
       'Casa Matriz + 2 sucursales',
-      'Diseño de Factura Personalizada',
-      'Envío de DTE vía correo electrónico',
-      'Importación de json',
-      'Reportes de operaciones General',
-      'Reportes por sucursal',
+      'Clientes & Proveedores',
       'Catálogo de Productos',
       'Control de inventarios',
+      'Reportes de operaciones General',
+      'Reportes por sucursal',
+      'Factura con logo de empresa y eslogan',
+      'Envío de DTE vía correo electrónico',
+      'Registro de compras',
+      { text: 'Importación JSON inteligente', isSubfeature: true },
       '6 Usuarios'
+    ],
+    implementationDetails: [
+      'Ingreso catálogo productos',
+      'Pruebas con Hacienda',
+      'Certificado DTE',
+      'Configuración multi-sucursal',
+      'Migración de datos',
+      'Capacitación avanzada',
+      'Soporte dedicado'
     ]
   },
   {
     name: 'Enterprise',
     monthlyPrice: 'Personalizado',
     annualPrice: 'Personalizado',
-    implementationCost: '500+',
+    implementationCost: null,
     features: [
       'Emisión de +1,000 DTE',
+      { text: 'Factura Comercial', isSubfeature: true },
+      { text: 'Crédito Fiscal', isSubfeature: true },
+      { text: 'Nota de Crédito', isSubfeature: true },
+      { text: 'Sujeto Excluido', isSubfeature: true },
       'Casa Matriz y sucursales ilimitadas',
-      'Diseño de Factura Personalizada',
-      'Envío de DTE vía correo electrónico',
-      'Importación de json',
-      'Reportes de operaciones',
+      'Clientes & Proveedores',
       'Catálogo de Productos',
       'Control de inventarios',
+      'Reportes de operaciones',
+      'Factura con logo de empresa y eslogan',
+      'Envío de DTE vía correo electrónico',
+      'Registro de compras',
+      { text: 'Importación JSON inteligente', isSubfeature: true },
       'Usuarios Ilimitados'
-    ]
+    ],
+    implementationDetails: [
+      'Pruebas con Hacienda',
+      'Certificado DTE',
+      'Configuración empresarial',
+      'Integración con sistemas',
+      'Migración completa de datos',
+      'Capacitación corporativa',
+      'Soporte 24/7'
+    ],
+    isEnterprise: true
   }
 ]
 
@@ -360,6 +487,7 @@ const PricingPlans = () => {
       <SectionSubtitle>
         Elige el plan perfecto para tu negocio. Todos incluyen soporte completo y actualizaciones.
       </SectionSubtitle>
+      
       <PlansContainer>
         {plans.map((plan, index) => (
           <PlanCard 
@@ -373,29 +501,49 @@ const PricingPlans = () => {
                 {typeof plan.monthlyPrice === 'number' ? `$${plan.monthlyPrice}` : plan.monthlyPrice}
                 {typeof plan.monthlyPrice === 'number' && <span>/mes</span>}
               </Price>
-              <PriceLabel>
-                {typeof plan.annualPrice === 'number' 
-                  ? `$${plan.annualPrice} anual` 
-                  : 'Cotización personalizada'}
-              </PriceLabel>
+              {plan.isEnterprise && (
+                <PriceLabel>Cotización personalizada</PriceLabel>
+              )}
             </PlanPrice>
             <PlanFeatures>
-              {plan.features.map((feature, idx) => (
-                <Feature key={idx}>
-                  <HiCheck />
-                  {feature}
-                </Feature>
-              ))}
+              {plan.features.map((feature, idx) => {
+                const isSubfeature = typeof feature === 'object' && feature.isSubfeature
+                const featureText = typeof feature === 'string' ? feature : feature.text
+                
+                return (
+                  <Feature key={idx} isSubfeature={isSubfeature}>
+                    <HiCheck />
+                    {featureText}
+                  </Feature>
+                )
+              })}
             </PlanFeatures>
-            <ImplementationCost>
-              <ImplementationLabel>Costo de Implementación</ImplementationLabel>
-              <ImplementationPrice>
-                {typeof plan.implementationCost === 'number' 
-                  ? `$${plan.implementationCost}` 
-                  : `$${plan.implementationCost}`}
-              </ImplementationPrice>
-            </ImplementationCost>
-            <SelectButton>Seleccionar Plan</SelectButton>
+            {plan.implementationCost && (
+              <ImplementationCost>
+                <ImplementationLabel>Costo de Implementación</ImplementationLabel>
+                <ImplementationPrice>
+                  {typeof plan.implementationCost === 'number' 
+                    ? `$${plan.implementationCost}` 
+                    : `$${plan.implementationCost}`}
+                </ImplementationPrice>
+              </ImplementationCost>
+            )}
+            <ImplementationDetails>
+              <ImplementationDetailsTitle>
+                {plan.implementationCost ? 'Incluye:' : 'Solución Empresarial:'}
+              </ImplementationDetailsTitle>
+              <ImplementationDetailsList>
+                {plan.implementationDetails.map((detail, idx) => (
+                  <ImplementationDetailItem key={idx}>
+                    <HiCheck />
+                    {detail}
+                  </ImplementationDetailItem>
+                ))}
+              </ImplementationDetailsList>
+            </ImplementationDetails>
+            <SelectButton>
+              {plan.isEnterprise ? 'Contactar Ventas' : 'Seleccionar Plan'}
+            </SelectButton>
           </PlanCard>
         ))}
       </PlansContainer>
