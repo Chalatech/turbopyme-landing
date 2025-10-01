@@ -6,7 +6,8 @@
     <title>Page Not Found - TurboPyME</title>
     <script>
         // Redirect to homepage and clear the URL path
-        window.location.href = window.location.origin + '/';
+        // Use replace to avoid adding to browser history
+        window.location.replace(window.location.protocol + '//' + window.location.host);
     </script>
     <style>
         body {
@@ -53,7 +54,7 @@
         <h1>404</h1>
         <p>Página no encontrada</p>
         <p>Redirigiendo al inicio...</p>
-        <a href="/" onclick="window.location.href = window.location.origin + '/'; return false;">Ir al inicio ahora</a>
+        <a href="/" onclick="window.location.replace(window.location.protocol + '//' + window.location.host); return false;">Ir al inicio ahora</a>
     </div>
 </body>
 </html>
