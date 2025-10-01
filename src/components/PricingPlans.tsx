@@ -182,12 +182,6 @@ const Price = styled.div<{ isCustom?: boolean }>`
   }
 `
 
-const PriceLabel = styled.div`
-  color: #718096;
-  font-size: 0.9rem;
-  margin-top: 0.5rem;
-`
-
 const PlanFeatures = styled.ul`
   list-style: none;
   padding: 0;

@@ -1,1 +1,1 @@
-- always lint for ts errors or warnings before push
+- IMPORTANT: always lint for ts errors or warnings before push - run `npm run build` to check for TypeScript errors before committing
