@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import styled from '@emotion/styled'
 import { keyframes } from '@emotion/react'
 
@@ -247,9 +247,11 @@ interface ContactFormData {
 interface ContactFormProps {
   onSubmit?: (data: ContactFormData) => Promise<boolean>
   onTrackEvent?: (eventName: string, data: Record<string, unknown>) => void
+  selectedPlan?: string | null
+  onPlanProcessed?: () => void
 }
 
-const ContactForm: React.FC<ContactFormProps> = ({ onSubmit, onTrackEvent }) => {
+const ContactForm: React.FC<ContactFormProps> = ({ onSubmit, onTrackEvent, selectedPlan, onPlanProcessed }) => {
   const [formData, setFormData] = useState<ContactFormData>({
     firstName: '',
     lastName: '',
@@ -258,9 +260,21 @@ const ContactForm: React.FC<ContactFormProps> = ({ onSubmit, onTrackEvent }) => 
     company: '',
     message: ''
   })
-  
+
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [status, setStatus] = useState<{ type: 'success' | 'error', message: string } | null>(null)
+
+  // Pre-fill message when a plan is selected
+  useEffect(() => {
+    if (selectedPlan) {
+      setFormData(prev => ({
+        ...prev,
+        message: `Hola, me interesa el plan ${selectedPlan} para mi empresa. Me gustaría obtener más información sobre este plan y el proceso de implementación.`
+      }))
+      // Mark the plan as processed
+      onPlanProcessed?.()
+    }
+  }, [selectedPlan, onPlanProcessed])
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target

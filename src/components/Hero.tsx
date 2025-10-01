@@ -205,20 +205,24 @@ const ButtonContainer = styled.div`
   justify-content: center;
   gap: 1rem;
   z-index: 2;
-  
+
   @media (max-width: 768px) {
     flex-direction: column;
     gap: 0;
+    padding-bottom: 60px; /* Add space to avoid overlap with scroll indicator */
+  }
+
+  @media (max-width: 480px) {
+    padding-bottom: 70px; /* More space on smaller screens */
   }
 `
 
 const ScrollIndicator = styled.div`
   position: absolute;
   bottom: 30px;
-  left: 50%;
   transform: translateX(-50%);
   animation: ${fadeIn} 1s ease-out 1s both;
-  
+
   &::after {
     content: '';
     display: block;
@@ -227,18 +231,9 @@ const ScrollIndicator = styled.div`
     border: 2px solid #0e7bd7;
     border-top: none;
     border-left: none;
-    transform: rotate(45deg);
+    transform: rotate(45deg) translateX(-3px);
     opacity: 0.7;
-    animation: ${keyframes`
-      0%, 100% {
-        transform: rotate(45deg) translateY(0px);
-        opacity: 0.7;
-      }
-      50% {
-        transform: rotate(45deg) translateY(6px);
-        opacity: 0.4;
-      }
-    `} 3s ease-in-out infinite;
+    margin: 0 auto;
   }
 `
 

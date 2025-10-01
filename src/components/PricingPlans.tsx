@@ -1,3 +1,4 @@
+import React from 'react'
 import styled from '@emotion/styled'
 import { keyframes } from '@emotion/react'
 import { useEffect, useRef, useState } from 'react'
@@ -80,15 +81,15 @@ const SectionSubtitle = styled.p`
 `
 
 const PlansContainer = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   gap: 1.5rem;
-  max-width: 1200px;
+  max-width: 1400px;
   width: 100%;
   margin: 0 auto;
-  
+
   @media (max-width: 768px) {
-    grid-template-columns: 1fr;
     gap: 1rem;
   }
 `
@@ -106,20 +107,40 @@ const PlanCard = styled.div<{ featured?: boolean; visible?: boolean }>`
   min-height: 500px;
   display: flex;
   flex-direction: column;
-  
+  flex: 0 1 calc(20% - 1.5rem);
+  min-width: 250px;
+  max-width: 300px;
+
   &:hover {
     transform: translateY(-8px) scale(1.02);
     box-shadow: 0 20px 60px rgba(14, 123, 215, 0.3);
     border-color: #0e7bd7;
   }
-  
+
+  @media (max-width: 1350px) {
+    flex: 0 1 calc(33% - 1.5rem);
+    max-width: 320px;
+  }
+
+  @media (max-width: 1000px) {
+    flex: 0 1 calc(45% - 1.5rem);
+    max-width: 350px;
+  }
+
   @media (max-width: 768px) {
     padding: 1.5rem;
     min-height: 450px;
-    
+    flex: 0 1 calc(50% - 1rem);
+    max-width: 350px;
+
     &:hover {
       transform: translateY(-5px) scale(1.01);
     }
+  }
+
+  @media (max-width: 550px) {
+    flex: 0 1 100%;
+    max-width: 100%;
   }
 `
 
@@ -140,19 +161,21 @@ const PlanPrice = styled.div`
   margin-bottom: 1.2rem;
 `
 
-const Price = styled.div`
-  font-size: 2.2rem;
+const Price = styled.div<{ isCustom?: boolean }>`
+  font-size: ${props => props.isCustom ? '1.3rem' : '2.2rem'};
   color: #0e7bd7;
   font-weight: 700;
-  
+  word-break: break-word;
+  line-height: 1.2;
+
   span {
     font-size: 1rem;
     color: #718096;
   }
-  
+
   @media (max-width: 768px) {
-    font-size: 1.8rem;
-    
+    font-size: ${props => props.isCustom ? '1.1rem' : '1.8rem'};
+
     span {
       font-size: 0.9rem;
     }
@@ -168,19 +191,19 @@ const PriceLabel = styled.div`
 const PlanFeatures = styled.ul`
   list-style: none;
   padding: 0;
-  margin: 1.5rem 0;
+  margin: 1rem 0;
   flex-grow: 1;
 `
 
 const Feature = styled.li<{ isSubfeature?: boolean }>`
-  padding: 0.5rem 0;
+  padding: 0.25rem 0;
   color: #4a5568;
   display: flex;
   align-items: flex-start;
   font-size: 0.9rem;
-  line-height: 1.4;
+  line-height: 1.3;
   margin-left: ${props => props.isSubfeature ? '1.5rem' : '0'};
-  
+
   svg {
     color: ${props => props.isSubfeature ? '#718096' : '#48bb78'};
     margin-right: 0.6rem;
@@ -189,11 +212,11 @@ const Feature = styled.li<{ isSubfeature?: boolean }>`
     margin-top: 0.1rem;
     flex-shrink: 0;
   }
-  
+
   ${props => props.isSubfeature && `
     font-size: 0.85rem;
     color: #718096;
-    padding: 0.3rem 0;
+    padding: 0.15rem 0;
   `}
   
   @media (max-width: 768px) {
@@ -307,6 +330,7 @@ const plans: PlanData[] = [
       { text: 'Crédito Fiscal', isSubfeature: true },
       { text: 'Nota de Crédito', isSubfeature: true },
       { text: 'Sujeto Excluido', isSubfeature: true },
+      { text: 'Factura exportación electrónica (próximamente)', isSubfeature: true },
       'Casa Matriz',
       'Clientes & Proveedores',
       'Catálogo de Productos',
@@ -318,8 +342,7 @@ const plans: PlanData[] = [
     ],
     implementationDetails: [
       'Pruebas con Hacienda',
-      'Certificado DTE',
-      'Configuración inicial',
+      'Autorización de Facturación Electrónica',
       'Capacitación básica',
       'Soporte técnico'
     ]
@@ -335,6 +358,7 @@ const plans: PlanData[] = [
       { text: 'Crédito Fiscal', isSubfeature: true },
       { text: 'Nota de Crédito', isSubfeature: true },
       { text: 'Sujeto Excluido', isSubfeature: true },
+      { text: 'Factura exportación electrónica (próximamente)', isSubfeature: true },
       'Casa Matriz',
       'Clientes & Proveedores',
       'Catálogo de Productos',
@@ -345,9 +369,10 @@ const plans: PlanData[] = [
       '1 Usuario'
     ],
     implementationDetails: [
+      'Ingreso catálogo productos',
+      'Ingreso de catálogo de clientes',
       'Pruebas con Hacienda',
-      'Certificado DTE',
-      'Configuración inicial',
+      'Autorización de Facturación Electrónica',
       'Capacitación completa',
       'Soporte técnico extendido'
     ]
@@ -364,6 +389,7 @@ const plans: PlanData[] = [
       { text: 'Crédito Fiscal', isSubfeature: true },
       { text: 'Nota de Crédito', isSubfeature: true },
       { text: 'Sujeto Excluido', isSubfeature: true },
+      { text: 'Factura exportación electrónica (próximamente)', isSubfeature: true },
       'Casa Matriz',
       'Clientes & Proveedores',
       'Catálogo de Productos',
@@ -375,8 +401,9 @@ const plans: PlanData[] = [
     ],
     implementationDetails: [
       'Ingreso catálogo productos',
+      'Ingreso de catálogo de clientes',
       'Pruebas con Hacienda',
-      'Certificado DTE',
+      'Autorización de Facturación Electrónica',
       'Configuración avanzada',
       'Capacitación multi-usuario',
       'Soporte prioritario'
@@ -393,6 +420,7 @@ const plans: PlanData[] = [
       { text: 'Crédito Fiscal', isSubfeature: true },
       { text: 'Nota de Crédito', isSubfeature: true },
       { text: 'Sujeto Excluido', isSubfeature: true },
+      { text: 'Factura exportación electrónica (próximamente)', isSubfeature: true },
       'Casa Matriz + 2 sucursales',
       'Clientes & Proveedores',
       'Catálogo de Productos',
@@ -407,8 +435,9 @@ const plans: PlanData[] = [
     ],
     implementationDetails: [
       'Ingreso catálogo productos',
+      'Ingreso de catálogo de clientes',
       'Pruebas con Hacienda',
-      'Certificado DTE',
+      'Autorización de Facturación Electrónica',
       'Configuración multi-sucursal',
       'Migración de datos',
       'Capacitación avanzada',
@@ -417,15 +446,22 @@ const plans: PlanData[] = [
   },
   {
     name: 'Enterprise',
-    monthlyPrice: 'Personalizado',
-    annualPrice: 'Personalizado',
+    monthlyPrice: 'Solución personalizada',
+    annualPrice: 'Solución personalizada',
     implementationCost: null,
     features: [
-      'Emisión de +1,000 DTE',
-      { text: 'Factura Comercial', isSubfeature: true },
-      { text: 'Crédito Fiscal', isSubfeature: true },
-      { text: 'Nota de Crédito', isSubfeature: true },
-      { text: 'Sujeto Excluido', isSubfeature: true },
+      'DTEs ilimitados',
+      { text: 'Factura Electrónica', isSubfeature: true },
+      { text: 'Comprobante de Crédito Fiscal Electrónico', isSubfeature: true },
+      { text: 'Nota de Remisión Electrónica', isSubfeature: true },
+      { text: 'Nota de Crédito Electrónica', isSubfeature: true },
+      { text: 'Nota de Débito Electrónica', isSubfeature: true },
+      { text: 'Comprobante de Retención Electrónico', isSubfeature: true },
+      { text: 'Comprobante de Liquidación Electrónico', isSubfeature: true },
+      { text: 'Documento Contable de Liquidación Electrónico', isSubfeature: true },
+      { text: 'Factura de Exportación Electrónica', isSubfeature: true },
+      { text: 'Factura Sujeto Excluido Electrónico', isSubfeature: true },
+      { text: 'Comprobante de Donación Electrónico', isSubfeature: true },
       'Casa Matriz y sucursales ilimitadas',
       'Clientes & Proveedores',
       'Catálogo de Productos',
@@ -435,11 +471,12 @@ const plans: PlanData[] = [
       'Envío de DTE vía correo electrónico',
       'Registro de compras',
       { text: 'Importación JSON inteligente', isSubfeature: true },
-      'Usuarios Ilimitados'
+      'Usuarios Ilimitados',
+      'Más funcionalidades'
     ],
     implementationDetails: [
       'Pruebas con Hacienda',
-      'Certificado DTE',
+      'Autorización de Facturación Electrónica',
       'Configuración empresarial',
       'Integración con sistemas',
       'Migración completa de datos',
@@ -450,7 +487,11 @@ const plans: PlanData[] = [
   }
 ]
 
-const PricingPlans = () => {
+interface PricingPlansProps {
+  onPlanSelect?: (planName: string) => void
+}
+
+const PricingPlans: React.FC<PricingPlansProps> = ({ onPlanSelect }) => {
   const [visibleCards, setVisibleCards] = useState<boolean[]>(new Array(plans.length).fill(false))
   const sectionRef = useRef<HTMLDivElement>(null)
 
@@ -497,13 +538,10 @@ const PricingPlans = () => {
           >
             <PlanName>{plan.name}</PlanName>
             <PlanPrice>
-              <Price>
+              <Price isCustom={plan.isEnterprise}>
                 {typeof plan.monthlyPrice === 'number' ? `$${plan.monthlyPrice}` : plan.monthlyPrice}
                 {typeof plan.monthlyPrice === 'number' && <span>/mes</span>}
               </Price>
-              {plan.isEnterprise && (
-                <PriceLabel>Cotización personalizada</PriceLabel>
-              )}
             </PlanPrice>
             <PlanFeatures>
               {plan.features.map((feature, idx) => {
@@ -530,7 +568,7 @@ const PricingPlans = () => {
             )}
             <ImplementationDetails>
               <ImplementationDetailsTitle>
-                {plan.implementationCost ? 'Incluye:' : 'Solución Empresarial:'}
+                Incluye:
               </ImplementationDetailsTitle>
               <ImplementationDetailsList>
                 {plan.implementationDetails.map((detail, idx) => (
@@ -541,7 +579,7 @@ const PricingPlans = () => {
                 ))}
               </ImplementationDetailsList>
             </ImplementationDetails>
-            <SelectButton>
+            <SelectButton onClick={() => onPlanSelect?.(plan.name)}>
               {plan.isEnterprise ? 'Contactar Ventas' : 'Seleccionar Plan'}
             </SelectButton>
           </PlanCard>

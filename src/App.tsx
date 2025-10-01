@@ -1,6 +1,6 @@
 import { css, Global } from '@emotion/react'
 import styled from '@emotion/styled'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import Hero from './components/Hero'
 import PricingPlans from './components/PricingPlans'
 import Features from './components/Features'
@@ -37,6 +37,8 @@ const AppContainer = styled.div`
 `
 
 function App() {
+  const [selectedPlan, setSelectedPlan] = useState<string | null>(null)
+
   useEffect(() => {
     // Track initial page view
     trackPageView()
@@ -51,16 +53,25 @@ function App() {
     analytics.track(eventName, data)
   }
 
+  const handlePlanSelect = (planName: string) => {
+    setSelectedPlan(planName)
+    // Scroll to contact form
+    const contactSection = document.getElementById('contact')
+    contactSection?.scrollIntoView({ behavior: 'smooth' })
+  }
+
   return (
     <>
       <Global styles={GlobalStyles} />
       <AppContainer>
         <Hero />
         <Features />
-        <PricingPlans />
-        <ContactForm 
+        <PricingPlans onPlanSelect={handlePlanSelect} />
+        <ContactForm
           onSubmit={handleLeadSubmit}
           onTrackEvent={handleTrackEvent}
+          selectedPlan={selectedPlan}
+          onPlanProcessed={() => setSelectedPlan(null)}
         />
         <Footer />
       </AppContainer>
